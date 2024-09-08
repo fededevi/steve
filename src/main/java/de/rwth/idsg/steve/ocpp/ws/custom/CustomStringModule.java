@@ -89,7 +89,7 @@ public class CustomStringModule extends SimpleModule {
         }
 
         private static String objectToString(Object value) {
-            return Encode.forHtml((String) value);
+            return Encode.forCDATA((String) value);
         }
     }
 
@@ -100,7 +100,7 @@ public class CustomStringModule extends SimpleModule {
         @Override
         public String deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
             String val = super.deserialize(p, ctxt);
-            return Encode.forHtml(val);
+            return Encode.forCDATA(val);
         }
     }
 }
