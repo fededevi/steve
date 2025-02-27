@@ -61,6 +61,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.Optional;
 
 /**
@@ -263,13 +266,41 @@ public class CentralSystemService16_Service {
         }
         if (parameters.isSetData()) {
             log.info("[Data Transfer] Data: {}", parameters.getData());
-        }
+        }    
 
-        //Custom alpitronic tap2charge data transfer
-        if (parameters.getMessageId() == "GetIdToken.req" || parameters.getMessageId() == "TapToCharge") {
-            if (parameters.getVendorId() == "com.electrifyamerica.hmi.v2" || parameters.getVendorId() == "hypercharger") {
+        //Custom tap2charge data transfer
+        if (parameters.getMessageId().equals("GetIdToken.req") || parameters.getMessageId().equals("TapToCharge")) {
+            log.info("[Data Transfer] Detected tap2charge ");
+            if (parameters.getVendorId().equals("com.electrifyamerica.hmi.v2") || parameters.getVendorId().equals("hypercharger")) {
+                log.info("[Data Transfer] Detected valid vendorid ");
                 DataTransferResponse response = new DataTransferResponse().withStatus(DataTransferStatus.ACCEPTED);
                 response.setData("{ \"idToken\" : \"tap2chargeid\", \"status\" : \"Accepted\" }");
+                return response;
+            }
+        }
+
+        {   // Automatic responder
+            // Use Jackson ObjectMapper to parse the data JSON
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode dataNode = null;
+            String customAutoResponse = null;
+            
+            try {
+                // Parse the 'data' field into a JsonNode
+                dataNode = objectMapper.readTree(parameters.getData());
+                // Look for the 'customAutoResponse' field in the JSON data
+                if (dataNode.has("customAutoResponse")) {
+                    customAutoResponse = dataNode.get("customAutoResponse").asText();
+                }
+            } catch (Exception e) {
+                log.error("[Data Transfer] No customAutoResponse", e);
+            }
+
+            // If customAutoResponse is found, return it in the response
+            if (customAutoResponse != null) {
+                log.info("[Data Transfer] Found customAutoResponse: {}", customAutoResponse);
+                DataTransferResponse response = new DataTransferResponse().withStatus(DataTransferStatus.ACCEPTED);
+                response.setData(customAutoResponse); // Send customAutoResponse as the response data
                 return response;
             }
         }
