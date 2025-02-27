@@ -265,6 +265,15 @@ public class CentralSystemService16_Service {
             log.info("[Data Transfer] Data: {}", parameters.getData());
         }
 
+        //Custom alpitronic tap2charge data transfer
+        if (parameters.getMessageId() == "GetIdToken.req" || parameters.getMessageId() == "TapToCharge") {
+            if (parameters.getVendorId() == "com.electrifyamerica.hmi.v2" || parameters.getVendorId() == "hypercharger") {
+                DataTransferResponse response = new DataTransferResponse().withStatus(DataTransferStatus.ACCEPTED);
+                response.setData("{ \"idToken\" : \"tap2chargeid\", \"status\" : \"Accepted\" }");
+                return response;
+            }
+        }
+
         // OCPP requires a status to be set. Since this is a dummy impl, set it to "Accepted".
         // https://github.com/steve-community/steve/pull/36
         return new DataTransferResponse().withStatus(DataTransferStatus.ACCEPTED);
