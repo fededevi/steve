@@ -47,7 +47,7 @@ MAINTAINER Ling Li
 
 # Download and install dockerize.
 # Needed so the web container will wait for MariaDB to start.
-ENV DOCKERIZE_VERSION v0.19.0
+ENV DOCKERIZE_VERSION v0.20.2
 RUN curl -sfL https://github.com/powerman/dockerize/releases/download/"$DOCKERIZE_VERSION"/dockerize-`uname -s`-`uname -m` | install /dev/stdin /usr/local/bin/dockerize
 
 EXPOSE 8180
