@@ -1,6 +1,6 @@
 /*
  * SteVe - SteckdosenVerwaltung - https://github.com/steve-community/steve
- * Copyright (C) 2013-2024 SteVe Community Team
+ * Copyright (C) 2013-2025 SteVe Community Team
  * All Rights Reserved.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -66,7 +66,7 @@ public class SettingsForm {
     @Email(message = "'From' field is not a valid e-mail address")
     private String from;
 
-    private String host, username, password, protocol;
+    private String mailHost, username, password, protocol;
 
     @Min(value = 1, message = "Port must be positive")
     private Integer port;
