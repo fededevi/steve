@@ -1,7 +1,7 @@
 <%--
 
     SteVe - SteckdosenVerwaltung - https://github.com/steve-community/steve
-    Copyright (C) 2013-2024 SteVe Community Team
+    Copyright (C) 2013-2025 SteVe Community Team
     All Rights Reserved.
 
     This program is free software: you can redistribute it and/or modify
@@ -73,6 +73,7 @@
                     <li><a href="${ctxPath}/manager/settings">SETTINGS</a></li>
                     <li><a href="${ctxPath}/manager/log">LOG</a></li>
                     <li><a href="${ctxPath}/manager/about">ABOUT</a></li>
+                    <li><a href="${ctxPath}/manager/swagger-ui/index.html">APIs</a></li>
                     <li><a href="${ctxPath}/manager/signout">SIGN OUT</a></li>
                 </ul>
             </div>

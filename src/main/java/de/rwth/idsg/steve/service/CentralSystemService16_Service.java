@@ -1,6 +1,6 @@
 /*
  * SteVe - SteckdosenVerwaltung - https://github.com/steve-community/steve
- * Copyright (C) 2013-2024 SteVe Community Team
+ * Copyright (C) 2013-2025 SteVe Community Team
  * All Rights Reserved.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -319,7 +319,10 @@ public class CentralSystemService16_Service {
      */
     private Integer getTransactionId(MeterValuesRequest parameters) {
         Integer transactionId = parameters.getTransactionId();
-        if (transactionId == null || transactionId == 0) {
+        if (transactionId == null) {
+            return null;
+        } else if (transactionId < 1) {
+            log.warn("MeterValues transactionId is invalid ({}), ignoring it", transactionId);
             return null;
         }
         return transactionId;
